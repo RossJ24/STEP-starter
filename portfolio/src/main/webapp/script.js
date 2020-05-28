@@ -16,15 +16,15 @@
  * Adds a random greeting to the page.
  */
 function randomFactAboutRoss() {
-  const fax =
+  const facts =
       ['I am conversational in Chinese!', 'My first programming language was Java', 'The programming language I like the most right now is Dart', 'The programming language I want to learn next is Golang!', 'My favorite basketball team is the Lakers'];
 
   // Pick a random fact.
-  const greeting = fax[Math.floor(Math.random() * fax.length)];
+  const greeting = facts[Math.floor(Math.random() * facts.length)];
 
   // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+  const factContainer = document.getElementById('fact-container');
+  factContainer.innerText = greeting;
 }
 
 /**

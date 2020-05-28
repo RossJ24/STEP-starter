@@ -4,25 +4,25 @@
   width: 650px;
 }
 
-#greeting-container {
+#fact-container {
   margin-top: 20px;
 }
 
 #selfimg,p,img {
-    border-radius: 10%;
+    border-radius: 10%
 }
 
-#yale{
+#yale {
     color : blue
 }
 
-#social-container{
+#social-container {
     margin-left: auto;
     margin-right: auto;
     width: 400px;
 }
 
-button{
+button {
     display: table-cell;
     margin:auto;
     background-image: linear-gradient(dodgerblue,darkturquoise);
@@ -32,24 +32,25 @@ button{
     border-style: solid;
     outline:none;
 }
-button:hover{
+button:hover {
     border-color: black;
 }
 
-#buttonlabel{
+#buttonlabel {
     color: white;
 }
 
-#bottomnavbuttonlabel{
+#bottomnavbuttonlabel {
     font-size: 16px;
     font-weight: bold;
     color: white;
 }
 
-#interestimg{
+#interestimg {
     height: 10%;
     padding-left: 5%;
     padding-right: 5%;
     width: 15%;
     border-radius: 10%;
+    background-color: white;
 }
