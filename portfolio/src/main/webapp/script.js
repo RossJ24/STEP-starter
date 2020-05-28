@@ -15,12 +15,12 @@
 /**
  * Adds a random greeting to the page.
  */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+function randomFactAboutRoss() {
+  const fax =
+      ['I am conversational in Chinese!', 'My first programming language was Java', 'The programming language I like the most right now is Dart', 'The programming language I want to learn next is Golang!', 'My favorite basketball team is the Lakers'];
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+  // Pick a random fact.
+  const greeting = fax[Math.floor(Math.random() * fax.length)];
 
   // Add it to the page.
   const greetingContainer = document.getElementById('greeting-container');
