@@ -26,3 +26,17 @@ function randomFactAboutRoss() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+/**
+ * Opens my LinkedIn profile in another tab.
+ */
+function goToLinkedIn(){
+    window.open("https://www.linkedin.com/in/ross-johnson24","_blank");
+}
+
+/**
+ * Opens my GitHub profile in another tab.
+ */
+function goToGitHub(){
+    window.open("https://github.com/RossJ24","_blank")
+}

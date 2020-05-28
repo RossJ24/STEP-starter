@@ -13,12 +13,29 @@
 }
 
 #yale{
-    /*color: dodgerblue*/
     color : blue
 }
 
 #social-container{
     margin-left: auto;
     margin-right: auto;
-    width: 200px;
+    width: 400px;
+}
+
+button{
+    display: table-cell;
+    margin:auto;
+    background-image: linear-gradient(dodgerblue,darkturquoise);
+    border-radius : 12px;
+    border-bottom-color: white;
+    border-color: white;
+    border-style: solid;
+    outline:none;
+}
+button:hover{
+    border-color: black;
+}
+
+#buttonlabel{
+    color: white;
 }
