@@ -9,7 +9,7 @@
 }
 
 #selfimg,p,img {
-    border-radius: 10px;
+    border-radius: 10%;
 }
 
 #yale{
@@ -38,4 +38,18 @@ button:hover{
 
 #buttonlabel{
     color: white;
+}
+
+#bottomnavbuttonlabel{
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+
+#interestimg{
+    height: 10%;
+    padding-left: 5%;
+    padding-right: 5%;
+    width: 15%;
+    border-radius: 10%;
 }
