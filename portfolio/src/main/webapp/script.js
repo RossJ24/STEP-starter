@@ -15,9 +15,17 @@
 /**
  * Adds a random greeting to the page.
  */
-function randomFactAboutRoss() {
+function getRandomFactAboutRoss() {
   const facts =
-      ['I am conversational in Chinese!', 'My first programming language was Java', 'The programming language I like the most right now is Dart', 'The programming language I want to learn next is Golang!', 'My favorite basketball team is the Lakers'];
+      ['I am conversational in Chinese!', 
+        'I have been to 4 continents!',
+        'I have been to more than 10 countries!',
+        'I really like pointers and pointer arithmetic!',
+        'I was a Track and Field All-American in 2018!',
+      'My first programming language was Java!', 
+      'The programming language I like the most right now is Dart!', 
+      'The programming language I want to learn next is Golang!', 
+      'My favorite basketball team is the Lakers!'];
 
   // Pick a random fact.
   const greeting = facts[Math.floor(Math.random() * facts.length)];
@@ -30,13 +38,13 @@ function randomFactAboutRoss() {
 /**
  * Opens my LinkedIn profile in another tab.
  */
-function goToLinkedIn(){
+function openLinkedInUrl(){
     window.open("https://www.linkedin.com/in/ross-johnson24","_blank");
 }
 
 /**
  * Opens my GitHub profile in another tab.
  */
-function goToGitHub(){
-    window.open("https://github.com/RossJ24","_blank")
+function openGitHubUrl(){
+    window.open("https://github.com/RossJ24","_blank");
 }
