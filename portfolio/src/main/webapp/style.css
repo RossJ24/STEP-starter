@@ -8,7 +8,7 @@
   margin-top: 20px;
 }
 
-#selfimg,p,img {
+#self-img,p,img {
     border-radius: 10%
 }
 
@@ -23,15 +23,16 @@
 }
 
 button {
-    display: table-cell;
-    margin:auto;
     background-image: linear-gradient(dodgerblue,darkturquoise);
     border-radius : 12px;
     border-bottom-color: white;
     border-color: white;
     border-style: solid;
+    display: table-cell;
+    margin: auto;
     outline:none;
 }
+
 button:hover {
     border-color: black;
 }
@@ -40,17 +41,17 @@ button:hover {
     color: white;
 }
 
-#bottomnavbuttonlabel {
+.bottom-nav-button-label {
+    color: white;
     font-size: 16px;
     font-weight: bold;
-    color: white;
 }
 
-.interestimg {
+.interest-img {
+    border-radius: 10%;
+    background-color: white;
     height: 10%;
     padding-left: 5%;
     padding-right: 5%;
     width: 15%;
-    border-radius: 10%;
-    background-color: white;
 }
