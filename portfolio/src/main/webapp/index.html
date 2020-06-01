@@ -1,18 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
   <head>
     <meta charset="UTF-8">
-    <title>My Portfolio</title>
+    <title>Ross Johnson's Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
   <body>
-    <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
-    </div>
+    <center>
+        <div id="content">
+            <h1>Ross Johnson's Portfolio</h1>
+            <p>Hello and thanks for visiting!<br>
+            I am a rising sophomore at <span id="yale" style="display:inline-block">Yale University</span> (Boola Boola!🐕) <br>
+            majoring in Computer Science!
+            </p>
+            <div id="self-img">
+                <p><img src="images/Ross.jpg"</img></p>
+            </div>
+            <h4>Connect with me!</h4>
+            <div id="social-container"> 
+                <button onclick="openGitHubUrl()">
+                    <img src="images/githublogo.jpg" style="height:20px;width=20px"> 
+                    </img>
+                    <center id="buttonlabel">
+                        GitHub
+                    </center>
+                </button>
+                <button onclick="openLinkedInUrl()">
+                    <img src="images/LinkedIn-Logo.png" style="height:20px;width=20px">
+                    </img>
+                    <center id = buttonlabel>
+                        LinkedIn
+                    </center>
+                </button>
+            </div>
+            <p>Click here to see a random fact about me!</p>
+            <button onclick="getRandomFactAboutRoss()">
+                <center id="buttonlabel">
+                    Random Fact
+                </center>
+            </button>
+            <div id="fact-container"></div>
+        </div>
+      </center>
+      <a href="./skills.html" style="text-decoration:none">
+        <button style="height:40px;"> 
+            <span class="bottom-nav-button-label">
+                &larr; Skills/previous experience
+            </span>
+        </button>
+      </a>
+      <a href="./interests.html" style="text-decoration:none">
+      <button  style="height:40px; float:right">
+          <span class="bottom-nav-button-label">
+              Personal Interests &rarr; 
+          </span>
+      </button>
+      </a>
   </body>
 </html>

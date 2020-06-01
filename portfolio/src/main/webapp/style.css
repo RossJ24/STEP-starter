@@ -4,6 +4,54 @@
   width: 650px;
 }
 
-#greeting-container {
+#fact-container {
   margin-top: 20px;
+}
+
+#self-img,p,img {
+    border-radius: 10%
+}
+
+#yale {
+    color : blue
+}
+
+#social-container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px;
+}
+
+button {
+    background-image: linear-gradient(dodgerblue,darkturquoise);
+    border-radius : 12px;
+    border-bottom-color: white;
+    border-color: white;
+    border-style: solid;
+    display: table-cell;
+    margin: auto;
+    outline:none;
+}
+
+button:hover {
+    border-color: black;
+}
+
+#buttonlabel {
+    color: white;
+}
+
+.bottom-nav-button-label {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.interest-img {
+    border-radius: 10%;
+    background-color: white;
+    height: 10%;
+    padding-left: 5%;
+    padding-right: 5%;
+    width: 15%;
 }

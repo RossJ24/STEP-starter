@@ -13,16 +13,39 @@
 // limitations under the License.
 
 /**
- * Adds a random greeting to the page.
+ * Adds a random fact about me to the page.
  */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+function getRandomFactAboutRoss() {
+  const facts = [
+    'I am conversational in Chinese!', 
+    'I have been to 4 continents!',
+    'I have been to more than 10 countries!',
+    'I really like pointers and pointer arithmetic!',
+    'I was a Track and Field All-American in 2018!',
+    'My first programming language was Java!', 
+    'The programming language I like the most right now is Dart!', 
+    'The programming language I want to learn next is Golang!', 
+    'My favorite basketball team is the Lakers!'
+        ];
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+  // Pick a random fact.
+  const fact = facts[Math.floor(Math.random() * facts.length)];
 
   // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+  const factContainer = document.getElementById('fact-container');
+  factContainer.innerText = fact;
+}
+
+/**
+ * Opens my LinkedIn profile in another tab.
+ */
+function openLinkedInUrl() {
+    window.open("https://www.linkedin.com/in/ross-johnson24","_blank");
+}
+
+/**
+ * Opens my GitHub profile in another tab.
+ */
+function openGitHubUrl() { 
+    window.open("https://github.com/RossJ24","_blank");
 }
