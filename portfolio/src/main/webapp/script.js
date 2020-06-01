@@ -59,6 +59,20 @@ async function getGreeting(){
 }
 
 /**
+ * Fetches greetings with my name from the server.
+ */
+async function getGreetings(){
+ let res = await fetch('/data');
+ let list = await res.json();
+ let text ='';
+ for(obj of list){
+    text += obj+"\n";
+ }
+ addGreetingToDOM(text);
+}
+
+
+/**
  * Add's the greeting to the DOM
  */
  function addGreetingToDOM(greeting){
