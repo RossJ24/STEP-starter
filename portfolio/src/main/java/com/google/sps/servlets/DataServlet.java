@@ -26,14 +26,16 @@ import com.google.gson.*;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
     ArrayList<String> Greetings = new ArrayList();
+    ArrayList<String> commentRepo = new ArrayList<String>();
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Greetings.add("\"Ross says Hey\"");
-    Greetings.add("\"Ross says Hi\"");
-    Greetings.add("\"Ross says What's up\"");
-    Gson parser = new Gson();
-    String json = parser.toJson(Greetings,ArrayList.class);
-    response.setContentType("application/json;");
-    response.getWriter().println(json);
+      
   }
+  @Override
+    public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException{
+        String jsonstring = req.getParameter("comment");
+        commentRepo.add(jsonstring);
+        System.out.println(commentRepo);
+        res.sendRedirect("/index.html");
+    }
 }
