@@ -24,29 +24,39 @@ import com.google.gson.*;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 
 /** Servlet that handles comments */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Gson parser = new Gson();
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        
+    public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException{
+        Query query = new Query("comment").addSort("timestamp",SortDirection.DESCENDING);
+        PreparedQuery results = datastore.prepare(query);
+        ArrayList comments = new ArrayList();
+        for (Entity entity : results.asIterable()){
+            comments.add(entity.getProperty("comment"));
+        }
+        res.setContentType("application/json;");
+        res.getWriter().println(parser.toJson(comments));
     }
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException{
         String jsonstring = req.getParameter("comment");
-
         Entity commentEntity = new Entity("comment");
         commentEntity.setProperty("comment",jsonstring);
         long timestamp = System.currentTimeMillis();
         commentEntity.setProperty("timestamp", timestamp);
         try{
             datastore.put(commentEntity);
+            res.sendRedirect("/index.html");
         } 
         catch(Exception e){
             res.sendRedirect("/error.html");
         }
-        res.sendRedirect("/index.html");
     }
 }

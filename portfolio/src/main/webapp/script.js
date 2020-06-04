@@ -49,32 +49,25 @@ function openLinkedInUrl() {
 function openGitHubUrl() { 
     window.open("https://github.com/RossJ24","_blank");
 }
-/**
- * Fetches a greeting with my name from the server.
- */
-async function getGreeting(){
- let res = await fetch('/data');
- let text = await res.text();
- addGreetingToDOM(text);
-}
 
 /**
- * Fetches greetings with my name from the server.
+ * Fetches previous comments from the server.
  */
-async function getGreetings(){
+async function getComments(){
  let res = await fetch('/data');
+ console.log(res);
  let list = await res.json();
  let text ='';
  for(obj of list){
     text += obj+"\n";
  }
- addGreetingToDOM(text);
+ addCommentsToDOM(text);
 }
 
 
 /**
- * Add's the greeting to the DOM
+ * Add's the comments to the DOM
  */
- function addGreetingToDOM(greeting){
-    document.getElementById("greet").innerText = greeting;
+ function addCommentsToDOM(comments){
+    document.getElementById("comment-list").innerText = comments;
  }
