@@ -44,7 +44,6 @@ public class DataServlet extends HttpServlet {
         commentEntity.setProperty("timestamp", timestamp);
         datastore.put(commentEntity);
         commentRepo.add(jsonstring);
-        System.out.println(commentRepo);
         res.sendRedirect("/index.html");
     }
 }
