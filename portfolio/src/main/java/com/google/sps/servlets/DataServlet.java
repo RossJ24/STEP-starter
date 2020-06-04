@@ -28,23 +28,25 @@ import com.google.appengine.api.datastore.Entity;
 /** Servlet that handles comments */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-    ArrayList<String> Greetings = new ArrayList();
-    ArrayList<String> commentRepo = new ArrayList<String>();
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-      
-  }
-  @Override
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        
+    }
+    @Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException{
-        Entity commentEntity = new Entity("comment");
         String jsonstring = req.getParameter("comment");
+
+        Entity commentEntity = new Entity("comment");
         commentEntity.setProperty("comment",jsonstring);
         long timestamp = System.currentTimeMillis();
         commentEntity.setProperty("timestamp", timestamp);
-        datastore.put(commentEntity);
-        commentRepo.add(jsonstring);
-        System.out.println(commentRepo);
+        try{
+            datastore.put(commentEntity);
+        } 
+        catch(Exception e){
+            res.sendRedirect("/error.html");
+        }
         res.sendRedirect("/index.html");
     }
 }
