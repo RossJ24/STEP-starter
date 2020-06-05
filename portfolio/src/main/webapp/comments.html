@@ -6,11 +6,31 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body onload="getComments()">
+  <body>
         <center>
             <h3>This is what others have had to say about Ross' website!</h3>
+        <input type="number" name="Comment Limit" id="limit" step=1 value=1><br>
+        <button onclick="getComments(document.getElementById('limit').value)">
+            <span style="color:white;">View Comments</span>
+        </button>
         </center>
         <center id="comment-list">
+        </center>
+        <center>
+            <button onclick="deleteComments()">
+                <span style="color:white;">
+                    Delete Comments
+                </span>
+            </button>
+            <p style="padding-top:10%"></p>
+                <a href="./index.html" style="text-decoration:none">
+                    <button style="height:40px" >
+                        <span class="bottom-nav-button-label">
+                            &larr; Back to Home
+                        </span>
+                    </button>
+                </a>
+            </p>
         </center>
   </body>
 </html>

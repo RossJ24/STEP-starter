@@ -43,11 +43,18 @@ public class DataServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException{
+        int limit = Integer.parseInt(req.getParameter("limit"));
+
         Query query = new Query(COMMENT_PROPERTY).addSort(TIMESTAMP_PROPERTY, SortDirection.DESCENDING);
         PreparedQuery results = datastore.prepare(query);
         ArrayList comments = new ArrayList();
+        int count = 1;
         for (Entity entity : results.asIterable()){
+            if(count > limit) {
+               break; 
+            } 
             comments.add(entity.getProperty(COMMENT_PROPERTY));
+            ++count;
         }
         res.setContentType(JSON_CONTENT_TYPE);
 
