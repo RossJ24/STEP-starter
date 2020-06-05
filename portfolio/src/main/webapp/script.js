@@ -54,8 +54,7 @@ function openGitHubUrl() {
  * Fetches previous comments from the server.
  */
 async function getComments(){
- let res = await fetch('/data');
- console.log(res);
+ let res = await fetch('/data'); 
  let list = await res.json();
  let text ='';
  for(obj of list){
