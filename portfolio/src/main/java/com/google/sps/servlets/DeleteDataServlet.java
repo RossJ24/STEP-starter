@@ -34,10 +34,9 @@ public class DeleteDataServlet extends HttpServlet{
         for (Entity entity : results.asIterable()){
             try{
             datastore.delete(entity.getKey());
-            } catch(Exception e){
+            } catch(DataStoreFailureException e){
                 System.out.println(e.toString());
             }
             } 
         }
-
 }

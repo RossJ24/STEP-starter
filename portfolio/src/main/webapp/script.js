@@ -77,11 +77,7 @@ async function getComments(limit){
   *Delete's all comments from the server
  */
  async function deleteComments(){
-     console.log("here");
     let req = await fetch('/delete-data',{method:'POST'});
-    console.log(req);
     await getComments(document.getElementById("limit").value);
-    console.log("done");
  }
  
-
