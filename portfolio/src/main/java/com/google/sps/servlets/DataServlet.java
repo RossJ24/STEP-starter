@@ -48,11 +48,14 @@ public class DataServlet extends HttpServlet {
         Query query = new Query(COMMENT_PROPERTY).addSort(TIMESTAMP_PROPERTY, SortDirection.DESCENDING);
         PreparedQuery results = datastore.prepare(query);
         ArrayList comments = new ArrayList();
+        //Integer to keep track of how many comments have been added to the arraylist that will be returned
         int count = 1;
         for (Entity entity : results.asIterable()){
+            //Stops iteration after 'limit' iterations
             if(count > limit) {
                break; 
             } 
+            //Add's the entity's comment string to the arraylist that will be returned
             comments.add(entity.getProperty(COMMENT_PROPERTY));
             ++count;
         }
@@ -65,7 +68,7 @@ public class DataServlet extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException{
         String jsonstring = req.getParameter("comment");
         Entity commentEntity = new Entity(COMMENT_ENTITY);
-        commentEntity.setProperty(COMMENT_PROPERTY,jsonstring);
+        commentEntity.setProperty(COMMENT_PROPERTY, jsonstring);
 
         long timestamp = System.currentTimeMillis();
         commentEntity.setProperty(TIMESTAMP_PROPERTY, timestamp);

@@ -53,15 +53,16 @@ function openGitHubUrl() {
 /**
  * Fetches previous comments from the server.
  */
-async function getComments(limit){
- limit = limit.toString();
- let res = await fetch('/data?limit='+limit); 
- let list = await res.json();
- let text ='';
- for(obj of list){
-    text += obj+"\n";
- }
- addCommentsToDOM(text);
+async function getComments(){
+    let limit = document.getElementById('limit').value;
+    limit = limit.toString();
+    let res = await fetch('/data?limit='+limit); 
+    let list = await res.json();
+    let text = '';
+    for(obj of list) {
+        text += obj + "\n";
+    }
+    addCommentsToDom(text);
 }
 
 
@@ -69,15 +70,15 @@ async function getComments(limit){
  * Add's the comments to the DOM
  * @param comments The comments that were fetched from the server 
  */
- function addCommentsToDOM(comments){
+ function addCommentsToDom(comments){
     document.getElementById("comment-list").innerText = comments;
  }
 
 /**
-  *Delete's all comments from the server
+  * Delete's all comments from the server
  */
  async function deleteComments(){
-    let req = await fetch('/delete-data',{method:'POST'});
+    let req = await fetch('/delete-data', {method:'POST'});
     await getComments(document.getElementById("limit").value);
  }
  
