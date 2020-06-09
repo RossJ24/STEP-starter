@@ -75,7 +75,7 @@ async function getComments(){
  }
 
 /**
-  * Delete's all comments from the server
+  * Deletes all comments from the server
  */
  async function deleteComments(){
     let req = await fetch('/delete-data', {method:'POST'});

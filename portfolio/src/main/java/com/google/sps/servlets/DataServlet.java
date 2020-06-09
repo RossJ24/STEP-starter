@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.*;
+import java.time.Instant;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -70,9 +71,8 @@ public class DataServlet extends HttpServlet {
         Entity commentEntity = new Entity(COMMENT_ENTITY);
         commentEntity.setProperty(COMMENT_PROPERTY, jsonstring);
 
-        long timestamp = System.currentTimeMillis();
-        commentEntity.setProperty(TIMESTAMP_PROPERTY, timestamp);
-
+        long currentTimeMillis = System.currentTimeMillis();
+        commentEntity.setProperty(TIMESTAMP_PROPERTY, currentTimeMillis);
         try{
             datastore.put(commentEntity);
             res.sendRedirect("/index.html");

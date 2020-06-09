@@ -16,9 +16,7 @@ import com.google.appengine.api.datastore.DatastoreFailureException;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Key;
 
-/**
- * Servlet that handles the delettion of comments
-*/
+/** Servlet that handles the deletion of comments through a post request */
 @WebServlet("/delete-data")
 public class DeleteDataServlet extends HttpServlet{
 
