@@ -15,6 +15,7 @@
 
 package com.google.sps.servlets;
 import java.util.ArrayList;
+import java.util.List;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,52 +35,42 @@ import com.google.appengine.api.datastore.DatastoreFailureException;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-    public static final String JSON_CONTENT_TYPE = "application/json";
-    public static final String COMMENT_PROPERTY = "comment";
-    public static final String TIMESTAMP_PROPERTY = "timestamp";
-    public static final String COMMENT_ENTITY = "comment";
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    private final Gson parser = new Gson();
-
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException{
+        List comments = new ArrayList();
         int limit = Integer.parseInt(req.getParameter("limit"));
-
-        Query query = new Query(COMMENT_PROPERTY).addSort(TIMESTAMP_PROPERTY, SortDirection.DESCENDING);
-        PreparedQuery results = datastore.prepare(query);
-        ArrayList comments = new ArrayList();
+        Query commentsQuery = new Query(ServletUtil.COMMENT_PROPERTY).addSort(ServletUtil.TIMESTAMP_PROPERTY, SortDirection.DESCENDING);
+        PreparedQuery commentResults = ServletUtil.datastore.prepare(commentsQuery);
         //Integer to keep track of how many comments have been added to the arraylist that will be returned
         int count = 1;
-        for (Entity entity : results.asIterable()){
+        for (Entity commentEntity : commentResults.asIterable()){
             //Stops iteration after 'limit' iterations
-            if(count > limit) {
+            if(count++ > limit) {
                break; 
             } 
             //Add's the entity's comment string to the arraylist that will be returned
-            comments.add(entity.getProperty(COMMENT_PROPERTY));
-            ++count;
+            comments.add(commentEntity.getProperty(ServletUtil.COMMENT_PROPERTY));
         }
-        res.setContentType(JSON_CONTENT_TYPE);
+        res.setContentType(ServletUtil.JSON_CONTENT_TYPE);
 
-        res.getWriter().println(parser.toJson(comments));
+        res.getWriter().println(ServletUtil.parser.toJson(comments));
     }
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException{
-        String jsonstring = req.getParameter("comment");
-        Entity commentEntity = new Entity(COMMENT_ENTITY);
-        commentEntity.setProperty(COMMENT_PROPERTY, jsonstring);
+        String jsonstring = req.getParameter(ServletUtil.COMMENT_PARAMETER);
+        Entity commentEntity = new Entity(ServletUtil.COMMENT_ENTITY);
+        commentEntity.setProperty(ServletUtil.COMMENT_PROPERTY, jsonstring);
 
         long currentTimeMillis = System.currentTimeMillis();
-        commentEntity.setProperty(TIMESTAMP_PROPERTY, currentTimeMillis);
+        commentEntity.setProperty(ServletUtil.TIMESTAMP_PROPERTY, currentTimeMillis);
         try{
-            datastore.put(commentEntity);
-            res.sendRedirect("/index.html");
+            ServletUtil.datastore.put(commentEntity);
+            res.sendRedirect(ServletUtil.HOME_HTML);
         } 
         catch(DatastoreFailureException e){
             System.out.println(e.toString());
-            res.sendRedirect("/error.html");
+            res.sendRedirect(ServletUtil.ERROR_HTML);
         }
     }
 }
