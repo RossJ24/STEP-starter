@@ -81,4 +81,8 @@ async function getComments(){
     let req = await fetch('/delete-data', {method:'POST'});
     await getComments(document.getElementById("limit").value);
  }
- 
+
+// Function that shows the 
+ function showMap(){
+     //TODO: Implement this function
+ }
