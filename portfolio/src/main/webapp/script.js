@@ -85,8 +85,23 @@ async function getComments(){
  }
 
 // Function that shows the 
- function showMap(){
-     const map = new google.maps.Map(
+function showMap() {
+  let previouslyVisitedLocations = {
+    "home" : {lat: 37.422, lng: -122.084},
+    "westmoreland" : {lat: 18.095945, lng: -77.897131},
+    "london" : {lat: 51.488114, lng: -0.156856},
+    "beijing" : {lat: 39.900630, lng: 116.397424},
+    "guilin" : {lat: 25.241825, lng: 110.300425},
+    "eiffel" : {lat: 48.858174, lng: 2.294270},
+    "niagara" : {lat: 43.101995, lng: -79.085296},
+    "haiti" : {lat:18.543493, lng: -72.285923},
+    "cancun" : {lat: 21.152070, lng: -86.850266}
+  }
+  const map = new google.maps.Map(
       document.getElementById('map'),
-      {center: {lat: 40.814759, lng: -74.190634}, zoom: 16});
- }
+      {center: previouslyVisitedLocations["home"], zoom: 4});
+
+  for(const location in previouslyVisitedLocations){
+      new google.maps.Marker({position: previouslyVisitedLocations[location], map: map})
+  }
+}
