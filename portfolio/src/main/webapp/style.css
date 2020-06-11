@@ -57,6 +57,6 @@ button:hover {
 }
 
 #map{
-    height: 400px;
-    width: 400px;
+    height: 0px;
+    width: 0px;
 }

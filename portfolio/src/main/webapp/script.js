@@ -31,7 +31,13 @@ function getRandomFactAboutRoss() {
   // Pick a random fact.
   const fact = facts[Math.floor(Math.random() * facts.length)];
   if(fact === 'I have been to 4 continents!' || fact === 'I have been to more than 10 countries!') {
+    document.getElementById("map").style.width = "400px"; 
+    document.getElementById("map").style.height = "400px";
     showMap();
+  }
+  else{
+    document.getElementById("map").style.width = "0px"; 
+    document.getElementById("map").style.height = "0px";
   }
   // Add it to the page.
   const factContainer = document.getElementById('fact-container');
