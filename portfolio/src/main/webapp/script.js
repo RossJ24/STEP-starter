@@ -49,3 +49,31 @@ function openLinkedInUrl() {
 function openGitHubUrl() { 
     window.open("https://github.com/RossJ24","_blank");
 }
+
+/**
+ * Fetches previous comments from the server.
+ */
+async function getComments(){
+    let limit = document.getElementById('limit').value.toString();
+    let res = await fetch(`/data?limit=${limit}`); 
+    let list = await res.json();
+    let text = list.join("\n");
+    addCommentsToDom(text);
+}
+
+
+/**
+ * Add's the comments to the DOM
+ * @param comments The comments that were fetched from the server 
+ */
+ function addCommentsToDom(comments){
+    document.getElementById("comment-list").innerText = comments;
+ }
+
+/**
+  * Deletes all comments from the server
+ */
+ async function deleteComments(){
+    let req = await fetch('/delete-data', {method:'POST'});
+    await getComments();
+ }

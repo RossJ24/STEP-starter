@@ -14,46 +14,64 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
+
+import java.util.ArrayList;
 import java.util.List;
-import java.util.LinkedList;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
+import java.time.Instant;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.DatastoreFailureException;
 
 /** Servlet that handles comments through post and TODO(rossjohnson): get requests */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-    public static final String JSON_CONTENT_TYPE = "application/json";
-    public static final String COMMENT_PROPERTY = "comment";
-    public static final String TIMESTAMP_PROPERTY = "timestamp";
-    public static final String COMMENT_ENTITY = "comment";
-    private static final String HOME_HTML = "/index.html";
-    private final List<String> greetingsList = new LinkedList<String>();
-    private final List<String> commentList = new LinkedList<String>();
-    private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-      //TODO(rossjohnson): Implement a function that retrieves comments from the database and returns them to the user
-  }
+
+    @Override
+    public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException{
+        List comments = new ArrayList();
+        int limit = Integer.parseInt(req.getParameter("limit"));
+        Query commentsQuery = new Query(ServletUtil.COMMENT_PROPERTY).addSort(ServletUtil.TIMESTAMP_PROPERTY, SortDirection.DESCENDING);
+        PreparedQuery commentResults = ServletUtil.datastore.prepare(commentsQuery);
+        //Integer to keep track of how many comments have been added to the arraylist that will be returned
+        int count = 1;
+        for (Entity commentEntity : commentResults.asIterable()){
+            //Stops iteration after 'limit' iterations
+            if(count++ > limit) {
+               break; 
+            } 
+            //Add's the entity's comment string to the arraylist that will be returned
+            comments.add(commentEntity.getProperty(ServletUtil.COMMENT_PROPERTY));
+        }
+        res.setContentType(ServletUtil.JSON_CONTENT_TYPE);
+
+        res.getWriter().println(ServletUtil.parser.toJson(comments));
+    }
+
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException{
-        Entity commentEntity = new Entity(COMMENT_ENTITY);
-        String jsonString = req.getParameter("comment");
-        commentEntity.setProperty(COMMENT_PROPERTY, jsonString);
+        String jsonstring = req.getParameter(ServletUtil.COMMENT_PARAMETER);
+        Entity commentEntity = new Entity(ServletUtil.COMMENT_ENTITY);
+        commentEntity.setProperty(ServletUtil.COMMENT_PROPERTY, jsonstring);
 
         long currentTimeMillis = System.currentTimeMillis();
-        commentEntity.setProperty(TIMESTAMP_PROPERTY, currentTimeMillis);
-
-        datastore.put(commentEntity);
-        commentList.add(jsonString);
-        res.sendRedirect(HOME_HTML);
-
-        //TODO(rossjohnson): Implement a backend that posts and fetches comments for the user
+        commentEntity.setProperty(ServletUtil.TIMESTAMP_PROPERTY, currentTimeMillis);
+        try{
+            ServletUtil.datastore.put(commentEntity);
+            res.sendRedirect(ServletUtil.HOME_HTML);
+        } 
+        catch(DatastoreFailureException e){
+            System.out.println(e.toString());
+            res.sendRedirect(ServletUtil.ERROR_HTML);
+        }
     }
 }
