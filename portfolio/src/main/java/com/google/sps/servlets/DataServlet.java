@@ -40,10 +40,10 @@ public class DataServlet extends HttpServlet {
         List comments = new ArrayList();
         int limit = Integer.parseInt(req.getParameter("limit"));
         Query commentsQuery = new Query(ServletUtil.COMMENT_PROPERTY).addSort(ServletUtil.TIMESTAMP_PROPERTY, SortDirection.DESCENDING);
-        PreparedQuery commentResults = ServletUtil.datastore.prepare(commentsQuery);
+        PreparedQuery commentResults = ServletUtil.DATASTORE.prepare(commentsQuery);
         //Integer to keep track of how many comments have been added to the arraylist that will be returned
         int count = 1;
-        for (Entity commentEntity : commentResults.asIterable()){
+        for (Entity commentEntity : commentResults.asIterable()) {
             //Stops iteration after 'limit' iterations
             if(count++ > limit) {
                break; 
@@ -53,7 +53,7 @@ public class DataServlet extends HttpServlet {
         }
         res.setContentType(ServletUtil.JSON_CONTENT_TYPE);
 
-        res.getWriter().println(ServletUtil.parser.toJson(comments));
+        res.getWriter().println(ServletUtil.PARSER.toJson(comments));
     }
 
     @Override
@@ -65,7 +65,7 @@ public class DataServlet extends HttpServlet {
         long currentTimeMillis = System.currentTimeMillis();
         commentEntity.setProperty(ServletUtil.TIMESTAMP_PROPERTY, currentTimeMillis);
         try{
-            ServletUtil.datastore.put(commentEntity);
+            ServletUtil.DATASTORE.put(commentEntity);
             res.sendRedirect(ServletUtil.HOME_HTML);
         } 
         catch(DatastoreFailureException e){

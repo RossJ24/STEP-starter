@@ -11,6 +11,6 @@ public final class ServletUtil{
     public static final String COMMENT_PARAMETER = "comment";
     public static final String HOME_HTML = "/index.html";
     public static final String ERROR_HTML = "/error.html";
-    public static final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    public static final Gson parser = new Gson();
+    public static final DatastoreService DATASTORE = DatastoreServiceFactory.getDatastoreService();
+    public static final Gson PARSER = new Gson();
 }
