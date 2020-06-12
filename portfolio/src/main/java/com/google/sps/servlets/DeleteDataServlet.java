@@ -16,24 +16,16 @@ import com.google.appengine.api.datastore.DatastoreFailureException;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Key;
 
-/**
- * Servlet that handles the delettion of comments
-*/
+/** Servlet that handles the deletion of comments through a post request */
 @WebServlet("/delete-data")
 public class DeleteDataServlet extends HttpServlet{
-
-    public static final String COMMENT_PROPERTY = "comment";
-    public static final String TIMESTAMP_PROPERTY = "timestamp";
-    public static final String COMMENT_ENTITY = "comment";
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     
     public void doPost(HttpServletRequest req, HttpServletResponse res) {
-        Query query = new Query(COMMENT_ENTITY);
-        PreparedQuery results = datastore.prepare(query);
-        for (Entity entity : results.asIterable()){
+        Query commentsQuery = new Query(ServletUtil.COMMENT_ENTITY);
+        PreparedQuery commentResults = ServletUtil.datastore.prepare(commentsQuery);
+        for (Entity commentEntity : commentResults.asIterable()){
             try {
-                datastore.delete(entity.getKey());
+                ServletUtil.datastore.delete(commentEntity.getKey());
             } 
             catch(DatastoreFailureException e) {
                 System.out.println(e.toString());
