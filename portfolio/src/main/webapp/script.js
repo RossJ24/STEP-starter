@@ -30,7 +30,8 @@ function getRandomFactAboutRoss() {
 
   // Pick a random fact.
   const fact = facts[Math.floor(Math.random() * facts.length)];
-  if(fact === 'I have been to 4 continents!' || fact === 'I have been to more than 10 countries!') {
+  let currentFactIndex = facts.indexOf(fact);
+  if(currentFactIndex === 2 || currentFactIndex === 3) {
     document.getElementById("map").style.width = "400px"; 
     document.getElementById("map").style.height = "400px";
     showMap();
