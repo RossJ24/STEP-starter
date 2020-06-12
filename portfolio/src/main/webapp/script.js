@@ -62,14 +62,10 @@ function openGitHubUrl() {
  * Fetches previous comments from the server.
  */
 async function getComments(){
-    let limit = document.getElementById('limit').value;
-    limit = limit.toString();
-    let res = await fetch('/data?limit='+limit); 
+    let limit = document.getElementById('limit').value.toString();
+    let res = await fetch(`/data?limit=${limit}`); 
     let list = await res.json();
-    let text = '';
-    for(obj of list) {
-        text += obj + "\n";
-    }
+    let text = list.join("\n");
     addCommentsToDom(text);
 }
 
@@ -83,11 +79,11 @@ async function getComments(){
  }
 
 /**
-  * Delete's all comments from the server
+  * Deletes all comments from the server
  */
  async function deleteComments(){
     let req = await fetch('/delete-data', {method:'POST'});
-    await getComments(document.getElementById("limit").value);
+    await getComments();
  }
 
 // Function that shows the 
