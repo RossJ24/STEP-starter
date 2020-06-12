@@ -77,4 +77,3 @@ async function getComments(){
     let req = await fetch('/delete-data', {method:'POST'});
     await getComments();
  }
- 

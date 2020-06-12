@@ -14,6 +14,7 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
@@ -31,7 +32,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.DatastoreFailureException;
 
-/** Servlet that handles comments */
+/** Servlet that handles comments through post and TODO(rossjohnson): get requests */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
