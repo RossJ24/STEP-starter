@@ -31,7 +31,7 @@ function getRandomFactAboutRoss() {
   // Pick a random fact.
   const fact = facts[Math.floor(Math.random() * facts.length)];
   let currentFactIndex = facts.indexOf(fact);
-  if(currentFactIndex === 2 || currentFactIndex === 3) {
+  if(currentFactIndex === 1 || currentFactIndex === 2) {
     document.getElementById("map").style.width = "400px"; 
     document.getElementById("map").style.height = "400px";
     showMap();
@@ -107,4 +107,21 @@ function showMap() {
   for(const location in previouslyVisitedLocations){
       new google.maps.Marker({position: previouslyVisitedLocations[location], map: map})
   }
+}
+
+//Function that authenticates users before shoeing comment content
+async function authenticate(){
+    let res = await fetch("/auth");
+    let contentType = res.headers.get("content-type");
+    if(contentType === "application/json") {
+        let userEmail = await res.json();
+        console.log(userEmail);
+    }
+    else {
+        console.log("here");
+        let responseText = await res.text();
+        let loginHtml = responseText;
+        console.log(responseText);
+        document.getElementsByTagName("body")[0].innerHTML = responseText;
+    }
 }
