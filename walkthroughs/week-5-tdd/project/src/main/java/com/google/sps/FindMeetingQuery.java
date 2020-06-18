@@ -168,7 +168,5 @@ public final class FindMeetingQuery {
         timeranges.removeAll(rangesToBeRemoved);
         return timeranges;
     }
-
   }
-
 }
