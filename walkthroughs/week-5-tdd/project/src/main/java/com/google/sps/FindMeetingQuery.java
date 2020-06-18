@@ -161,7 +161,7 @@ public final class FindMeetingQuery {
             }
         }
     }
-    if(rangesToBeRemoved.size() >= timeranges.size()){\
+    if(rangesToBeRemoved.size() >= timeranges.size()){
         return timeranges;
     }
     else{
