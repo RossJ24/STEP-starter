@@ -115,13 +115,10 @@ async function authenticate(){
     let contentType = res.headers.get("content-type");
     if(contentType === "application/json") {
         let userEmail = await res.json();
-        console.log(userEmail);
     }
     else {
-        console.log("here");
         let responseText = await res.text();
         let loginHtml = responseText;
-        console.log(responseText);
         document.getElementsByTagName("body")[0].innerHTML = responseText;
     }
 }

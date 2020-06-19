@@ -15,14 +15,15 @@ public class AuthServlet extends HttpServlet{
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException{
         if(!ServletUtil.USERSERVICE.isUserLoggedIn()){
-            String urlToRedirectToAfterUserLogsIn = "/comments.html";
-            String loginUrl = ServletUtil.USERSERVICE.createLoginURL(urlToRedirectToAfterUserLogsIn);
-            res.getWriter().println("<center><a href=\"" + loginUrl + "\"><button><span style=\"color:white;\">Login</span></button/></a></center>");
+            String urlToRedirectToAfterUserLogsIn = ServletUtil.COMMENTS_HTML;
+            String loginUrl = ServletUtil.USER_SERVICE.createLoginURL(urlToRedirectToAfterUserLogsIn);
+            res.getWriter().println("<center><a href=\"" + loginUrl + "\">
+            <button><span style=\"color:white;\">Login</span></button/></a></center>");
         }
         else{
-            String userEmail = ServletUtil.USERSERVICE.getCurrentUser().getEmail();
-            String urlToRedirectToAfterUserLogsOut = "./index.html";
-            String logoutUrl = ServletUtil.USERSERVICE.createLogoutURL(urlToRedirectToAfterUserLogsOut);
+            String userEmail = ServletUtil.USER_SERVICE.getCurrentUser().getEmail();
+            String urlToRedirectToAfterUserLogsOut = ServletUtil.HOME_HTML;
+            String logoutUrl = ServletUtil.USER_SERVICE.createLogoutURL(urlToRedirectToAfterUserLogsOut);
             res.setContentType(ServletUtil.JSON_CONTENT_TYPE);
             res.getWriter().println(ServletUtil.PARSER.toJson(userEmail));
         }
