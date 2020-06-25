@@ -22,10 +22,10 @@ public class DeleteDataServlet extends HttpServlet{
     
     public void doPost(HttpServletRequest req, HttpServletResponse res) {
         Query commentsQuery = new Query(ServletUtil.COMMENT_ENTITY);
-        PreparedQuery commentResults = ServletUtil.datastore.prepare(commentsQuery);
+        PreparedQuery commentResults = ServletUtil.DATASTORE.prepare(commentsQuery);
         for (Entity commentEntity : commentResults.asIterable()){
             try {
-                ServletUtil.datastore.delete(commentEntity.getKey());
+                ServletUtil.DATASTORE.delete(commentEntity.getKey());
             } 
             catch(DatastoreFailureException e) {
                 System.out.println(e.toString());

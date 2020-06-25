@@ -55,3 +55,8 @@ button:hover {
     padding-right: 5%;
     width: 15%;
 }
+
+#map{
+    height: 0px;
+    width: 0px;
+}
