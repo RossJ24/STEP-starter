@@ -20,6 +20,7 @@ import com.google.appengine.api.datastore.Key;
 @WebServlet("/delete-data")
 public class DeleteDataServlet extends HttpServlet{
     
+    @Override
     public void doPost(HttpServletRequest req, HttpServletResponse res) {
         Query commentsQuery = new Query(ServletUtil.COMMENT_ENTITY);
         PreparedQuery commentResults = ServletUtil.DATASTORE.prepare(commentsQuery);

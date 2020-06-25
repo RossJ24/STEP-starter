@@ -64,6 +64,8 @@ public class DataServlet extends HttpServlet {
 
         long currentTimeMillis = System.currentTimeMillis();
         commentEntity.setProperty(ServletUtil.TIMESTAMP_PROPERTY, currentTimeMillis);
+
+        commentEntity.setProperty(ServletUtil.EMAIL_PROPERTY, ServletUtil.USER_SERVICE.getCurrentUser().getEmail());
         try{
             ServletUtil.DATASTORE.put(commentEntity);
             res.sendRedirect(ServletUtil.HOME_HTML);
