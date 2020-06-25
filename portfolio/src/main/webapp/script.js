@@ -12,6 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
+const continent_comment_index = 2;
+const country_comment_index = 3;
+const previouslyVisitedLocations = {
+    "home" : {lat: 37.422, lng: -122.084},
+    "westmoreland" : {lat: 18.095945, lng: -77.897131},
+    "london" : {lat: 51.488114, lng: -0.156856},
+    "beijing" : {lat: 39.900630, lng: 116.397424},
+    "guilin" : {lat: 25.241825, lng: 110.300425},
+    "eiffel" : {lat: 48.858174, lng: 2.294270},
+    "niagara" : {lat: 43.101995, lng: -79.085296},
+    "haiti" : {lat:18.543493, lng: -72.285923},
+    "cancun" : {lat: 21.152070, lng: -86.850266}
+  }
+
 /**
  * Adds a random fact about me to the page.
  */
@@ -27,18 +42,19 @@ function getRandomFactAboutRoss() {
     'The programming language I want to learn next is Golang!', 
     'My favorite basketball team is the Lakers!'
         ];
-
   // Pick a random fact.
-  const fact = facts[Math.floor(Math.random() * facts.length)];
-  let currentFactIndex = facts.indexOf(fact);
-  if(currentFactIndex === 1 || currentFactIndex === 2) {
-    document.getElementById("map").style.width = "400px"; 
-    document.getElementById("map").style.height = "400px";
+  let currentFactIndex = Math.floor(Math.random() * facts.length);
+  const fact = facts[currentFactIndex];
+  let mapBox = document.getElementById("map")
+  //Only shows the map if the comment is relevant to places I have visted
+  if(currentFactIndex === continent_comment_index || currentFactIndex === country_comment_index) {
+    mapBox.style.width = "400px"; 
+    mapBox.style.height = "400px";
     showMap();
   }
-  else{
-    document.getElementById("map").style.width = "0px"; 
-    document.getElementById("map").style.height = "0px";
+  else {
+    mapBox.style.width = "0px"; 
+    mapBox.style.height = "0px";
   }
   // Add it to the page.
   const factContainer = document.getElementById('fact-container');
@@ -63,13 +79,12 @@ function openGitHubUrl() {
  * Fetches previous comments from the server.
  */
 async function getComments(){
-    let limit = document.getElementById('limit').value.toString();
-    let res = await fetch(`/data?limit=${limit}`); 
-    let list = await res.json();
-    let text = list.join("\n");
-    addCommentsToDom(text);
+  let limit = document.getElementById('limit').value.toString();
+  let res = await fetch(`/data?limit=${limit}`); 
+  let list = await res.json();
+  let text = list.join("\n");
+  addCommentsToDom(text);
 }
-
 
 /**
  * Add's the comments to the DOM
@@ -81,31 +96,19 @@ async function getComments(){
 
 /**
   * Deletes all comments from the server
- */
+  */
  async function deleteComments(){
     let req = await fetch('/delete-data', {method:'POST'});
     await getComments();
  }
 
-// Function that shows the 
+// Function that shows the Map
 function showMap() {
-  let previouslyVisitedLocations = {
-    "home" : {lat: 37.422, lng: -122.084},
-    "westmoreland" : {lat: 18.095945, lng: -77.897131},
-    "london" : {lat: 51.488114, lng: -0.156856},
-    "beijing" : {lat: 39.900630, lng: 116.397424},
-    "guilin" : {lat: 25.241825, lng: 110.300425},
-    "eiffel" : {lat: 48.858174, lng: 2.294270},
-    "niagara" : {lat: 43.101995, lng: -79.085296},
-    "haiti" : {lat:18.543493, lng: -72.285923},
-    "cancun" : {lat: 21.152070, lng: -86.850266}
-  }
   const map = new google.maps.Map(
       document.getElementById('map'),
       {center: previouslyVisitedLocations["home"], zoom: 4});
-
   for(const location in previouslyVisitedLocations){
-      new google.maps.Marker({position: previouslyVisitedLocations[location], map: map})
+      new google.maps.Marker({position: previouslyVisitedLocations[location], map: map});
   }
 }
 
@@ -115,13 +118,10 @@ async function authenticate(){
     let contentType = res.headers.get("content-type");
     if(contentType === "application/json") {
         let userEmail = await res.json();
-        console.log(userEmail);
     }
     else {
-        console.log("here");
         let responseText = await res.text();
         let loginHtml = responseText;
-        console.log(responseText);
         document.getElementsByTagName("body")[0].innerHTML = responseText;
     }
 }

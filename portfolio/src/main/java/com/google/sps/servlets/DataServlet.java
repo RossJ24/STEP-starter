@@ -14,6 +14,7 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
@@ -29,25 +30,24 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.DatastoreFailureException;
+import com.google.appengine.api.datastore.QueryResultList;
 
-/** Servlet that handles comments */
+
+/** Servlet that handles comments through post and TODO(rossjohnson): get requests */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException{
         List comments = new ArrayList();
-        int limit = Integer.parseInt(req.getParameter("limit"));
-        Query commentsQuery = new Query(ServletUtil.COMMENT_PROPERTY).addSort(ServletUtil.TIMESTAMP_PROPERTY, SortDirection.DESCENDING);
-        PreparedQuery commentResults = ServletUtil.DATASTORE.prepare(commentsQuery);
+        int limit = Integer.parseInt(req.getParameter(ServletUtil.LIMIT_PARAMETER));
+        FetchOptions options = FetchOptions.Builder.withLimit(limit);
+        Query commentsQuery = new Query(ServletUtil.COMMENT_ENTITY).addSort(ServletUtil.TIMESTAMP_PROPERTY, SortDirection.DESCENDING);
+        List<Entity> commentResults = ServletUtil.DATASTORE.prepare(commentsQuery).asList(options);
         //Integer to keep track of how many comments have been added to the arraylist that will be returned
-        int count = 1;
-        for (Entity commentEntity : commentResults.asIterable()) {
-            //Stops iteration after 'limit' iterations
-            if(count++ > limit) {
-               break; 
-            } 
+        for (Entity commentEntity : commentResults) {
             //Add's the entity's comment string to the arraylist that will be returned
             comments.add(commentEntity.getProperty(ServletUtil.COMMENT_PROPERTY));
         }
@@ -65,7 +65,7 @@ public class DataServlet extends HttpServlet {
         long currentTimeMillis = System.currentTimeMillis();
         commentEntity.setProperty(ServletUtil.TIMESTAMP_PROPERTY, currentTimeMillis);
 
-        commentEntity.setProperty(ServletUtil.EMAIL_PROPERTY, ServletUtil.USERSERVICE.getCurrentUser().getEmail());
+        commentEntity.setProperty(ServletUtil.EMAIL_PROPERTY, ServletUtil.USER_SERVICE.getCurrentUser().getEmail());
         try{
             ServletUtil.DATASTORE.put(commentEntity);
             res.sendRedirect(ServletUtil.HOME_HTML);
