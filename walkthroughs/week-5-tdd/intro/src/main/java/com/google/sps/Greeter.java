@@ -22,12 +22,12 @@ public class Greeter {
    * Returns a greeting for the given name.
    */
   public String greet(String name) {
-    String cleanedName = "";
+    StringBuilder cleanedName = new StringBuilder("Hello ");
     char [] nameRay = name.trim().toCharArray();
     for(char c : nameRay){
-        cleanedName += (Character.isLetter(c) || Character.isDigit(c))? c : ""; 
+        cleanedName.append(Character.isLetterOrDigit(c) ? c : ""); 
     }
     
-    return "Hello " + cleanedName;
+    return cleanedName.toString();
   }
 }

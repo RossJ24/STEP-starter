@@ -22,25 +22,29 @@ import java.util.HashSet;
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
+    // Return value of the query
     ArrayList<TimeRange> ret = new ArrayList<TimeRange>();
     if(request.getDuration() > 1440){
         return ret;
     }
+
     if(events.size() == 0) {
         ret.add(TimeRange.WHOLE_DAY);
         return ret;
     }
+
     ArrayList<Event> otherMeetings;
-    if(request.getOptionalAttendees().size() >= 0 && request.getAttendees().size() == 0)
-        otherMeetings = doAttendeesHaveAnyOtherMeetings(events, request, true);
-    else{
+    if(request.getOptionalAttendees().size() >= 0 && request.getAttendees().size() == 0) {
+         otherMeetings = doAttendeesHaveAnyOtherMeetings(events, request, true);
+    } 
+    else {
         otherMeetings = doAttendeesHaveAnyOtherMeetings(events, request, false);
     }
     if(otherMeetings.size() == 0) {
         ret.add(TimeRange.WHOLE_DAY);
         return ret;
     }
-        ArrayList<TimeRange> timeranges =  new ArrayList<TimeRange>();
+        ArrayList<TimeRange> timeranges = new ArrayList<TimeRange>();
         for(Event e : otherMeetings){
             timeranges.add(e.getWhen());
         }
@@ -118,18 +122,8 @@ public final class FindMeetingQuery {
     * @return new TimeRange created from the overlap between tr1 and tr2
    */
   public TimeRange mergeTimeRanges(TimeRange tr1, TimeRange tr2) {
-      int earliest;
-      int latest;
-      if(tr1.start() < tr2.start()) {
-        earliest = tr1.start();
-      } else {
-        earliest = tr2.start();
-      }
-      if(tr1.end() > tr2.end()) {
-          latest = tr1.end();
-      } else {
-        latest = tr2.end();
-      }
+      int earliest = Math.min(tr1.start(), tr2.start());
+      int latest = Math.max(tr1.end(), tr2.end());
       return TimeRange.fromStartEnd(earliest,latest,false);
   }
 

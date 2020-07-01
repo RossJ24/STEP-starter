@@ -45,7 +45,7 @@ public final class GreeterTest {
 
 	String greeting = greeter.greet("   Ross$$$");
 
-	// Whitespace should be trimmed
+	// Whitespace should be trimmed and special characters taken out
 	Assert.assertEquals("Hello Ross", greeting);
 	}
 }

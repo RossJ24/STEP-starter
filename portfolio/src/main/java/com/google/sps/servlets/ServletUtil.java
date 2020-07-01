@@ -13,7 +13,7 @@ public final class ServletUtil{
     public static final String COMMENT_PARAMETER = "comment";
     public static final String HOME_HTML = "/index.html";
     public static final String ERROR_HTML = "/error.html";
-    public static final String COMMMENTS_HTML = "/comments.html";
+    public static final String COMMENTS_HTML = "/comments.html";
     public static final String EMAIL_PROPERTY = "email";
     public static final DatastoreService DATASTORE = DatastoreServiceFactory.getDatastoreService();
     public static final Gson PARSER = new Gson();
