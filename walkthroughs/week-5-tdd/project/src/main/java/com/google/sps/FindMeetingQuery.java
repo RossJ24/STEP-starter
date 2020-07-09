@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.HashSet;
 
 public final class FindMeetingQuery {
@@ -41,7 +42,7 @@ public final class FindMeetingQuery {
     else {
         otherMeetings = AttendeesOtherMeetings(events, request, false);
     }
-    if(otherMeetings.isEmpty() == 0) {
+    if(otherMeetings.isEmpty()) {
         ret.add(TimeRange.WHOLE_DAY);
         return ret;
     }
@@ -63,7 +64,7 @@ public final class FindMeetingQuery {
         if(newTimeRange.start() != newTimeRange.end() && newTimeRange.duration() >= request.getDuration()) {
             ret.add(newTimeRange);
         } 
-        if(!request.getOptionalAttendees().isEmpty() {
+        if(!request.getOptionalAttendees().isEmpty()) {
             ret = tryToFitOptionalAttendees(ret,events,request);
         }
         return ret;
@@ -77,7 +78,7 @@ public final class FindMeetingQuery {
     * @return ret an Arraylist of the other Events
     */
   public ArrayList<Event> AttendeesOtherMeetings(Collection<Event> events, MeetingRequest request, boolean optional) {
-    return events.stream().filter((e) -> isOverlapBetweenAttendees(e, request, optional)).collect(Collectors.toList());
+    return (ArrayList<Event>) events.stream().filter((e) -> isOverlapBetweenAttendees(e, request, optional)).collect(Collectors.toList());
   }
 
   /**
