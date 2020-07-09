@@ -23,11 +23,9 @@ public class Greeter {
    */
   public String greet(String name) {
     StringBuilder cleanedName = new StringBuilder("Hello ");
-    char [] nameRay = name.trim().toCharArray();
-    for(char c : nameRay){
+    for(char c : name.trim().toCharArray()){
         cleanedName.append(Character.isLetterOrDigit(c) ? c : ""); 
     }
-    
     return cleanedName.toString();
   }
 }

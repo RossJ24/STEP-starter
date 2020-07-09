@@ -21,26 +21,27 @@ import java.util.Set;
 import java.util.HashSet;
 
 public final class FindMeetingQuery {
+    private final int DAY_DURATION = 1440;
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     // Return value of the query
     ArrayList<TimeRange> ret = new ArrayList<TimeRange>();
-    if(request.getDuration() > 1440){
+    if(request.getDuration() > DAY_DURATION){
         return ret;
     }
 
-    if(events.size() == 0) {
+    if(events.isEmpty()) {
         ret.add(TimeRange.WHOLE_DAY);
         return ret;
     }
 
     ArrayList<Event> otherMeetings;
-    if(request.getOptionalAttendees().size() >= 0 && request.getAttendees().size() == 0) {
-         otherMeetings = doAttendeesHaveAnyOtherMeetings(events, request, true);
+    if(request.getOptionalAttendees().size() >= 0 && request.getAttendees().isEmpty()) {
+        otherMeetings = AttendeesOtherMeetings(events, request, true);
     } 
     else {
-        otherMeetings = doAttendeesHaveAnyOtherMeetings(events, request, false);
+        otherMeetings = AttendeesOtherMeetings(events, request, false);
     }
-    if(otherMeetings.size() == 0) {
+    if(otherMeetings.isEmpty() == 0) {
         ret.add(TimeRange.WHOLE_DAY);
         return ret;
     }
@@ -49,7 +50,7 @@ public final class FindMeetingQuery {
             timeranges.add(e.getWhen());
         }
         Collections.sort(timeranges, TimeRange.ORDER_BY_START);
-        removeOverlap(timeranges);
+        performUnionOverTimeranges(timeranges);
         int currentStart = 0;
         for(TimeRange tr : timeranges) {
             TimeRange newTimeRange = TimeRange.fromStartEnd(currentStart, tr.start(),false);
@@ -58,11 +59,11 @@ public final class FindMeetingQuery {
             }
             currentStart =  tr.end();
         }
-        TimeRange newTimeRange = TimeRange.fromStartEnd(currentStart,1440,false);
+        TimeRange newTimeRange = TimeRange.fromStartEnd(currentStart,DAY_DURATION,false);
         if(newTimeRange.start() != newTimeRange.end() && newTimeRange.duration() >= request.getDuration()) {
             ret.add(newTimeRange);
         } 
-        if(request.getOptionalAttendees().size() > 0) {
+        if(!request.getOptionalAttendees().isEmpty() {
             ret = tryToFitOptionalAttendees(ret,events,request);
         }
         return ret;
@@ -73,25 +74,20 @@ public final class FindMeetingQuery {
     * @param events a collection of events
     * @param request a meeting request 
     * @param optional a boolean flag that determines whether the function checks optional attendees or mandatory attendees
-    * @return ret an ARraylist of the other Events
+    * @return ret an Arraylist of the other Events
     */
-  public ArrayList<Event> doAttendeesHaveAnyOtherMeetings(Collection<Event> events, MeetingRequest request, boolean optional) {
-      ArrayList<Event> ret = new ArrayList<Event>();
-      for(Event e : events){
-        if(doAttendeesOverlap(e, request, optional)){
-            ret.add(e);
-        }
-      }
-      return ret;
+  public ArrayList<Event> AttendeesOtherMeetings(Collection<Event> events, MeetingRequest request, boolean optional) {
+    return events.stream().filter((e) -> isOverlapBetweenAttendees(e, request, optional)).collect(Collectors.toList());
   }
 
   /**
     * Function that checks a single event and determines whether the requested meetings attendees are included in it
     * @param event the Event that the MeetingRequest will be checked againt
     * @param request the requested Meeting
+    * @param optional a boolean that determines whether the function checks optional attendees or mandatory attendees
     * @return a boolean that respresents whether the attendees overlap
     */
-  public boolean doAttendeesOverlap(Event event, MeetingRequest request, boolean optional) {
+  public boolean isOverlapBetweenAttendees(Event event, MeetingRequest request, boolean optional) {
       for(String eventAttendee : event.getAttendees()) {
           for(String requestAttendee : optional ? request.getOptionalAttendees() : request.getAttendees()) {
               if(eventAttendee.compareTo(requestAttendee) == 0) {
@@ -106,12 +102,13 @@ public final class FindMeetingQuery {
     * @param timeranges an Arraylist of TimeRanges
     * @return void 
     */
-  public void removeOverlap(ArrayList<TimeRange> timeranges){ 
+  public void performUnionOverTimeranges(ArrayList<TimeRange> timeranges){ 
       for(int i = 1; i < timeranges.size(); ++i){
         if(timeranges.get(i-1).overlaps(timeranges.get(i))) {
             TimeRange newrange = mergeTimeRanges(timeranges.get(i-1), timeranges.get(i));
             timeranges.set(i-1,newrange);
             timeranges.remove(i);
+            --i;
         }
       }
   }
@@ -121,7 +118,7 @@ public final class FindMeetingQuery {
     * @param tr2 another TimeRange that needs to be merged
     * @return new TimeRange created from the overlap between tr1 and tr2
    */
-  public TimeRange mergeTimeRanges(TimeRange tr1, TimeRange tr2) {
+  private TimeRange mergeTimeRanges(TimeRange tr1, TimeRange tr2) {
       int earliest = Math.min(tr1.start(), tr2.start());
       int latest = Math.max(tr1.end(), tr2.end());
       return TimeRange.fromStartEnd(earliest,latest,false);
@@ -137,7 +134,7 @@ public final class FindMeetingQuery {
   public ArrayList<TimeRange> tryToFitOptionalAttendees(ArrayList<TimeRange> timeranges, Collection<Event> events, MeetingRequest request) {
     ArrayList<String> optionalAttendees = new ArrayList<String>(request.getOptionalAttendees());
     Set<TimeRange> rangesToBeRemoved = new HashSet<TimeRange>();
-    if(optionalAttendees.size() == 0){
+    if(optionalAttendees.isEmpty()){
         return timeranges;
     }
     for(Event event : events ){
