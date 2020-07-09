@@ -14,11 +14,10 @@ public class AuthServlet extends HttpServlet{
     
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException{
-        if(!ServletUtil.USERSERVICE.isUserLoggedIn()){
+        if(!ServletUtil.USER_SERVICE.isUserLoggedIn()){
             String urlToRedirectToAfterUserLogsIn = ServletUtil.COMMENTS_HTML;
             String loginUrl = ServletUtil.USER_SERVICE.createLoginURL(urlToRedirectToAfterUserLogsIn);
-            res.getWriter().println("<center><a href=\"" + loginUrl + "\">
-            <button><span style=\"color:white;\">Login</span></button/></a></center>");
+            res.getWriter().println("<center><a href=\"" + loginUrl + "\"><button><span style=\"color:white;\">Login</span></button/></a></center>");
         }
         else{
             String userEmail = ServletUtil.USER_SERVICE.getCurrentUser().getEmail();

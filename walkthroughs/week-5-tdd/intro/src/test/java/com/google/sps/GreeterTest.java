@@ -22,12 +22,30 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class GreeterTest {
 
-  @Test
-  public void testGreeting() {
-    Greeter greeter = new Greeter();
+    @Test
+    public void testGreeting() {
+        Greeter greeter = new Greeter();
+        String name = "Ada";
+        String greeting = greeter.greet("Ada");
 
-    String greeting = greeter.greet("Ada");
+        Assert.assertEquals("Hello "+name, greeting);
+    }
+	@Test
+	public void testGreetingTrimsWhitespace() {
+        Greeter greeter = new Greeter();
+        String name = "Ada";
+        String greeting = greeter.greet("   Ada   ");
 
-    Assert.assertEquals("Hello Ada", greeting);
-  }
+        // Whitespace should be trimmed
+        Assert.assertEquals("Hello "+name, greeting);
+	}
+	@Test
+	public void testGreetingOddCharsWithWhitespace() {
+        Greeter greeter = new Greeter();
+        String name = "Ross";
+        String greeting = greeter.greet("   Ross$$$");
+
+        // Whitespace should be trimmed and special characters taken out
+        Assert.assertEquals("Hello Ross", greeting);
+	}
 }
