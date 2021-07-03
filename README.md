@@ -1,5 +1,7 @@
 # Google Student Training in Engineering Program
 
+Projects completed during the first half of my first Google STEP internship.
+
 This repo contains the projects you'll work on for the first half of STEP.
 This work is based on the [Google Software Product Sprint](https://g.co/softwareproductsprint) program.
 
